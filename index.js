@@ -22,40 +22,63 @@ const length = users.length
   })
 
   //get 1 user
-  app.get('/users/:slug',(req,res) => {
-    // console.log(req,params)
-      const foundItem = users.find((item, index, arr) => item.id === Number(req.params.id) )
+  app.get('/users/:id',(req,res) => {
+    console.log(req)
+      const foundItem = users.find((item, index, arr) => item._id == Number(req.params.id) )
 
-    console.log(foundItem)
+    // console.log(foundItem)
     res.json(foundItem)
  })
 
 //post add a user
-app.post('/user', (req,res) => {
+app.post('/users', (req,res) => {
   const newPerson = {
-    id: length + 1,
+    _id: length + 1,
     ... req.body
   }
   
-  users.push(req.body)
+  users.push(newPerson)
 
   res.json(users)
 })
 
 // PUT make chenges to a key value
-app.put('/user', (req,res) => {
-  let newJob = {
-    "occupation": "Full Stack"
-  }
-  users.push(newJob)
+app.put('/users/:id', (req,res) => {
+  // console.log(job)
 
+   const parm = Number(req.params.id)
+   let orginaljob = users.occupation
+  
+  for (let i = 0; i < users.length; i++) {
+      const element = users[i];
+     
+      /// long way - will only change the key values if they exist within the body
+      if (parm === element._id){
+        if (req.body.occupation) {
+          element.occupation = req.body.occupation  
+        }
+        if (req.body.name) {
+          element.name = req.body.name  
+        }
+        if (req.body.avatar) {
+          element.avatar = req.body.avatar
+        }   
+        } 
+          
+    }
+  
+  // let newJob = {
+  //   "occupation": "Full Stack"
+  // }
+  // users.push(newJob)
+ 
   res.json(users)
 })
 
 //DELETE remove a user
-app.delete('/user/:slug', (req,res) => {
-  console.log(req,params)
-  const removeUser = users.find((item, index, arr) => item.id === Number(req.params.id) )
+app.delete('/users/:id', (req,res) => {
+  // console.log(req,params)
+  const removeUser = users.find((item, index, arr) => item._id === Number(req.params.id) )
 
   res.send(removeUser)
 })
