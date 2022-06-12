@@ -64,7 +64,6 @@ app.put('/users/:id', (req,res) => {
           element.avatar = req.body.avatar
         }   
         } 
-          
     }
   
   // let newJob = {
@@ -79,6 +78,7 @@ app.put('/users/:id', (req,res) => {
 app.delete('/users/:id', (req,res) => {
   // console.log(req,params)
   const removeUser = users.find((item, index, arr) => item._id === Number(req.params.id) )
+    removeUser.isactive = false;
 
   res.send(removeUser)
 })
